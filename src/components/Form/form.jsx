@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import css from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from '@reduxjs/toolkit';
-import { addContact } from 'components/redux/phonebook/slice';
 import { selectContacts } from 'components/redux/phonebook/selectors';
+import { addContact } from 'components/redux/phonebook/slice';
 
 // Перевірка валідності введених значень в поля вводу за допомогою RegExp
 const isValidName = data => {
@@ -19,7 +18,7 @@ const isValidNumber = data => {
 
 const Form = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
@@ -32,7 +31,7 @@ const Form = () => {
     if (!isValidName(name)) {
       alert('Field "name" must by filled corectly!!!');
       return;
-    } else if (!isValidNumber(number)) {
+    } else if (!isValidNumber(phone)) {
       alert('Field "phone number" must by filled corectly!!!');
       return;
     }
@@ -43,14 +42,13 @@ const Form = () => {
     }
 
     // Створення об'єкту контакта
-    const contact = {
-      id: nanoid(),
+    const newContact = {
       name,
-      number,
+      phone,
     };
 
     // Виклик функції додавання контакта в store
-    dispatch(addContact(contact));
+    dispatch(addContact(newContact));
 
     // Очищаємо поля вводу
     reset();
@@ -66,8 +64,8 @@ const Form = () => {
       case 'name':
         setName(value);
         break;
-      case 'number':
-        setNumber(value);
+      case 'phone':
+        setPhone(value);
         break;
       default:
         return;
@@ -76,7 +74,7 @@ const Form = () => {
   // Функція очистки полів вводу
   const reset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
@@ -97,11 +95,11 @@ const Form = () => {
         {'Phone  '}
         <input
           type="tel"
-          name="number"
+          name="phone"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           className={css.inputNumber}
-          value={number}
+          value={phone}
           onChange={handleChange}
         />
       </label>
