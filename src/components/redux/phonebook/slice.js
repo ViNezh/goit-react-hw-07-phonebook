@@ -36,17 +36,18 @@ export const deleteContact = createAsyncThunk(
     }
   }
 );
+const INITIAL_STATE = {
+  contacts: {
+    items: [],
+    isLoading: false,
+    error: null,
+  },
+  filter: '',
+};
 
 export const phoneBookSlice = createSlice({
   name: 'phonebook',
-  initialState: {
-    contacts: {
-      items: [],
-      isLoading: false,
-      error: null,
-    },
-    filter: '',
-  },
+  initialState: INITIAL_STATE,
   reducers: {
     updateFilter: (state, action) => {
       state.filter = action.payload;

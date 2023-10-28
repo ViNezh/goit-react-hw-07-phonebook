@@ -24,30 +24,32 @@ export const ContactList = () => {
   }, [dispatch]);
 
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+    contact.name.toLowerCase().includes(filter.toLowerCase().trim())
   );
 
   return (
-    <ul className={css.contactList}>
+    <>
       {isLoading && <Loader />}
       {error && <ErrorComponent error={error} />}
-      {filteredContacts.length > 0 &&
-        filteredContacts.map(contact => (
-          <li key={contact.name}>
-            <div className={css.contactListItem}>
-              <span className={css.fieldName}>{contact.name}:</span>
-              <span className={css.fieldNumber}>{contact.phone}</span>
-              <button
-                className={css.deleteBtn}
-                onClick={() => {
-                  dispatch(deleteContact(contact.id));
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-    </ul>
+      <ul className={css.contactList}>
+        {filteredContacts.length > 0 &&
+          filteredContacts.map(contact => (
+            <li key={contact.name}>
+              <div className={css.contactListItem}>
+                <span className={css.fieldName}>{contact.name}:</span>
+                <span className={css.fieldNumber}>{contact.phone}</span>
+                <button
+                  className={css.deleteBtn}
+                  onClick={() => {
+                    dispatch(deleteContact(contact.id));
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+      </ul>
+    </>
   );
 };
